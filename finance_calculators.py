@@ -1,55 +1,57 @@
 
 # program to calculate investment future value and mortgage repayment
 import math
-# prompt the user to input a menu option
-user_input = ''
-line = "x" 
-print(line * 100)
-menu = """1:Investment - To calculate the amount of interest you 'ill earn on your investment
-2:Bond - To calculate the amount you 'll have to pay on a home loan
-Enter either 'investment' or 'bond' from the menu above to proceed: 
-"""
-user_input = input(menu).casefold() # force change user input characters to lower case
-p = 0
-t = 0
-r = 0
-i = 0
-n = 0
-# calculation for investment option
-if user_input == "investment":  
-    p = int(input("Please enter amount you want to invest: "))
-    print("You want to deposit:", p)
-    t = int(input("Please enter years you want to invest between 1 and 25: "))
-    r  = int(input("Plaese enter 8 for annual interest: " ))
-# interest option input by user
-    menu_int = """Please select interest option below:
-    1: Option 1 - simple interest
-    2: Option 2 = compound interest """
 
-    user_int = ""
-    r = r / 100
-    fv = p * ( 1 + ( t * r))
-    a = p * math.pow((1+r), t)
+def calculate_investment():
+    print("Investment calculation option selected.")
+    principal = float(input("Please enter the amount you want to invest: "))
+    years = int(input("Please enter the number of years you want to invest between 1 and 25: "))
+    interest_rate = float(input("Please enter the annual interest rate (in percentage): ")) / 100
+    
+    menu_int = """Please select interest option below:
+    1: Option 1 - Simple interest
+    2: Option 2 - Compound interest
+    """
     user_int = input(menu_int)
-    if user_int == "1": 
-        print("You selected simple interest. Your investment total:", fv)
+    
+    if user_int == "1":
+        simple_interest = principal * (1 + years * interest_rate)
+        print("Your simple interest total is:", simple_interest)
     elif user_int == "2":
-            print("Your compounded investment total is:", a)
-    elif user_int != "1" or "2":
-        print("Choose interest option to proceed", menu_int)
+        compound_interest = principal * math.pow((1 + interest_rate), years)
+        print("Your compounded interest total is:", compound_interest)
     else:
-        print("refresh page and select your option to proceed")       
-#calculation of mortgage monthly repayment
-elif user_input == "bond":
+        print("Invalid option. Please select a valid interest option.")
+
+def calculate_bond():
     print("Mortgage calculation option selected.")
-    p = int(input("Please enter current value of house: "))
-    n = int(input("Please enter time you plan to repay the mortgage in months: "))
-    i = int(input("Please enter 5 for interest: "))
-    i= i / 100
-    repayment = (i* p )/(1-(1+i)**(-n))
-    print("Your monthly repayment is", repayment)
-while user_input != "investment" or "bond":
-    print( menu)
-    break
-else:   
-    print("Please refresh page and make a selection")
+    house_value = float(input("Please enter the current value of the house: "))
+    months = int(input("Please enter the time you plan to repay the mortgage in months: "))
+    interest_rate = float(input("Please enter the annual interest rate (in percentage): ")) / 100
+    
+    monthly_interest_rate = interest_rate / 12
+    monthly_repayment = (monthly_interest_rate * house_value) / (1 - math.pow((1 + monthly_interest_rate), -months))
+    
+    print("Your monthly repayment is:", monthly_repayment)
+
+def main():
+    print("# Program to calculate investment future value and mortgage repayment")
+    print("#" * 100)
+    
+    while True:
+        menu = """1: Investment - To calculate the amount of interest you'll earn on your investment
+2: Bond - To calculate the amount you'll have to pay on a home loan
+Enter either 'investment' or 'bond' from the menu above to proceed: """
+        user_input = input(menu).strip().lower()
+        
+        if user_input == "investment":
+            calculate_investment()
+            break
+        elif user_input == "bond":
+            calculate_bond()
+            break
+        else:
+            print("Invalid option. Please select 'investment' or 'bond'.")
+
+if __name__ == "__main__":
+    main()
